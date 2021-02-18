@@ -4,7 +4,35 @@
 #include <string>
 #include "qdebug.h"
 #include <iostream>
-#include "obmkdisk.h"
+#include "cat.h"
+#include "chgrp.h"
+#include "chmod.h"
+#include "chown.h"
+#include "cp.h"
+#include "edit.h"
+#include "exec.h"
+#include "fdisk.h"
+#include "find.h"
+#include "login.h"
+#include "logout.h"
+#include "loss.h"
+#include "mkdir.h"
+#include "mkdisk.h"
+#include "mkfile.h"
+#include "mkfs.h"
+#include "mkgrp.h"
+#include "mkusr.h"
+#include "mount.h"
+#include "mv.h"
+#include "pause.h"
+#include "recovery.h"
+#include "rem.h"
+#include "ren.h"
+#include "repl.h"
+#include "rmdisk.h"
+#include "rmgrp.h"
+#include "rmusr.h"
+#include "unmount.h"
 using namespace std;
 extern int yylineno; //linea actual donde se encuentra el parser (analisis lexico) lo maneja BISON
 extern int columna; //columna actual donde se encuentra el parser (analisis lexico) lo maneja BISON
@@ -20,7 +48,7 @@ int yyerror(const char* mens)
 //error-verbose si se especifica la opcion los errores sintacticos son especificados por BISON
 %defines "parser.h"
 %output "parser.cpp"
-%error-verbose
+%define parse.error verbose
 %locations
 %union{
     char TEXT[256];
@@ -48,7 +76,7 @@ int yyerror(const char* mens)
     class recovery *recovery_comm;
     class rem *rem_comm;
     class ren *ren_comm;
-    class rep *rep_comm; //Falta
+    class repl *rep_comm
     class rmdisk *rmdisk_comm;
     class rmgrp *rmgrp_comm;
     class rmusr *rmusr_comm;
@@ -112,9 +140,9 @@ int yyerror(const char* mens)
 %token<TEXT> res_k;
 %token<TEXT> res_m;
 %token<TEXT> res_bf;
+%token<TEXT> res_ff;
 %token<TEXT> res_wf;
 %token<TEXT> res_b;
-%token<TEXT> res_p;
 %token<TEXT> res_e;
 %token<TEXT> res_l;
 %token<TEXT> res_fast;
@@ -137,41 +165,41 @@ int yyerror(const char* mens)
 //Manejo de expresiones regulares
 %token<TEXT> entero;
 %token<TEXT> cadena;
-\
+
 //Manejo de simbolos
 %token<TEXT> igual;
 %token<TEXT> uno;
 %token<TEXT> unoMas;
 
-%type<cat_comm> COMANDO_CAT; //Produccion completa
-%type<chgrp_comm> COMANDO_CHGRP; //Produccion completa
-%type<chmod_comm> COMANDO_CHMOD; //Produccion completa
-%type<chown_comm> COMANDO_CHOWN; //Produccion completa
-%type<cp_comm> COMANDO_CP; //Produccion completa
-%type<edit_comm> COMANDO_EDIT; //Produccion completa
-%type<exec_comm> COMANDO_EXEC; //Produccion completa
-%type<fdisk_comm> COMANDO_FDISK; //Produccion completa
-%type<find_comm> COMANDO_FIND; //Produccion completa
-%type<login_comm> COMANDO_LOGIN; //Produccion completa
-%type<logout_comm> COMANDO_LOGOUT; //Produccion completa
-%type<loss_comm> COMANDO_LOSS; //Produccion completa
-%type<mkdir_comm> COMANDO_MKDIR; //Produccion completa
-%type<mkdisk_comm> COMANDO_MKDISK; //Produccion completa
-%type<mkfile_comm> COMANDO_MKFILE; //Produccion completa
-%type<mkfs_comm> COMANDO_MKFS; //Produccion completa
-%type<mkgrp_comm> COMANDO_MKGRP; //Produccion completa
-%type<mkusr_comm> COMANDO_MKUSR; //Produccion completa
-%type<mount_comm> COMANDO_MOUNT; //Produccion completa
-%type<mv_comm> COMANDO_MV; //Produccion completa
-%type<pause_comm> COMANDO_PAUSE; //Produccion completa
-%type<recovery_comm> COMANDO_RECOVERY; //Produccion completa
-%type<rem_comm> COMANDO_REM; //Produccion completa
-%type<ren_comm> COMANDO_REN; //Produccion completa
-%type<rep_comm> COMANDO_REP; //Produccion completa
-%type<rmdisk_comm> COMANDO_RMDISK; //Produccion completa
-%type<rmgrp_comm> COMANDO_RMGRP; //Produccion completa
-%type<rmusr_comm> COMANDO_RMUSR; //Produccion completa
-%type<unmount_comm> COMANDO_UNMOUNT; //Produccion completa
+%type<cat> COMANDO_CAT; //Produccion completa
+%type<chgrp> COMANDO_CHGRP; //Produccion completa
+%type<chmod> COMANDO_CHMOD; //Produccion completa
+%type<chown> COMANDO_CHOWN; //Produccion completa
+%type<cp> COMANDO_CP; //Produccion completa
+%type<edit> COMANDO_EDIT; //Produccion completa
+%type<exec> COMANDO_EXEC; //Produccion completa
+%type<fdisk> COMANDO_FDISK; //Produccion completa
+%type<find> COMANDO_FIND; //Produccion completa
+%type<login> COMANDO_LOGIN; //Produccion completa
+%type<logout> COMANDO_LOGOUT; //Produccion completa
+%type<loss> COMANDO_LOSS; //Produccion completa
+%type<mkdir> COMANDO_MKDIR; //Produccion completa
+%type<mkdisk> COMANDO_MKDISK; //Produccion completa
+%type<mkfile> COMANDO_MKFILE; //Produccion completa
+%type<mkfs> COMANDO_MKFS; //Produccion completa
+%type<mkgrp> COMANDO_MKGRP; //Produccion completa
+%type<mkusr> COMANDO_MKUSR; //Produccion completa
+%type<mount> COMANDO_MOUNT; //Produccion completa
+%type<mv> COMANDO_MV; //Produccion completa
+%type<pause> COMANDO_PAUSE; //Produccion completa
+%type<recovery> COMANDO_RECOVERY; //Produccion completa
+%type<rem> COMANDO_REM; //Produccion completa
+%type<ren> COMANDO_REN; //Produccion completa
+%type<rep> COMANDO_REP; //Produccion completa
+%type<rmdisk> COMANDO_RMDISK; //Produccion completa
+%type<rmgrp> COMANDO_RMGRP; //Produccion completa
+%type<rmusr> COMANDO_RMUSR; //Produccion completa
+%type<unmount> COMANDO_UNMOUNT; //Produccion completa
 
 %start COMANDOS
 %%
@@ -208,58 +236,82 @@ COMANDOS: res_cat COMANDO_CAT
     ;
 
 COMANDO_CAT: res_filen igual cadena RECURSIVIDAD_FILEN
+{
+    $$ = new cat();
+}
     ;
 
 RECURSIVIDAD_FILEN: res_filen igual cadena RECURSIVIDAD_FILEN
-    |
+    |{}
     ;
 
 COMANDO_CHGRP: res_chgrp ATRIBUTOS_CHGRP
+{
+    $$ = new chgrp();
+}
     ;
 
 ATRIBUTOS_CHGRP: res_usr igual cadena ATRIBUTOS_CHGRP
     | res_grp igual cadena ATRIBUTOS_CHGRP
-    |
+    |{}
     ;
 
 COMANDO_CHMOD: res_chmod ATRIBUTOS_CHMOD
+{
+    $$ = new chmod();
+}
     ;
 
 ATRIBUTOS_CHMOD: res_path igual cadena ATRIBUTOS_CHMOD
     | res_ugo igual entero ATRIBUTOS_CHMOD
     | res_r ATRIBUTOS_CHMOD
-    |
+    |{}
     ;
 
 COMANDO_CHOWN: res_chown ATRIBUTOS_CHOWN
+{
+    $$ = new chown();
+}
     ;
 
 ATRIBUTOS_CHOWN: res_path igual cadena ATRIBUTOS_CHOWN
     | res_usr igual cadena ATRIBUTOS_CHOWN
     | res_r ATRIBUTOS_CHOWN
-    |
+    |{}
     ;
 
 COMANDO_CP: res_cp ATRIBUTOS_CP
+{
+    $$ = new cp();
+}
     ;
 
 ATRIBUTOS_CP: res_path igual cadena ATRIBUTOS_CP
     | res_dest igual cadena ATRIBUTOS_CP
-    |
+    |{}
     ;
 
 COMANDO_EDIT: res_edit ATRIBUTOS_EDIT
+{
+    $$ = new edit();
+}
     ;
 
 ATRIBUTOS_EDIT: res_path igual cadena ATRIBUTOS_EDIT
     | res_cont igual cadena ATRIBUTOS_EDIT
-    |
+    |{}
     ;
 
 COMANDO_EXEC: res_exec res_path igual cadena
+{
+    $$ = new exec();
+}
     ;
 
 COMANDO_FDISK: res_fdisk ATRIBUTOS_FDISK
+{
+    $$ = new fdisk();
+}
     ;
 
 ATRIBUTOS_FDISK: res_size igual entero ATRIBUTOS_FDISK
@@ -270,7 +322,7 @@ ATRIBUTOS_FDISK: res_size igual entero ATRIBUTOS_FDISK
     | res_f igual VALOR_F ATRIBUTOS_FDISK
     | res_delete igual VALOR_DELETE ATRIBUTOS_FDISK
     | res_add igual entero ATRIBUTOS_FDISK
-    |
+    |{}
     ;
 
 VALOR_U: res_b
@@ -293,119 +345,170 @@ VALOR_DELETE: res_fast
     ;
 
 COMANDO_FIND: res_find ATRIBUTOS_FIND
+{
+    $$ = new find();
+}
     ;
 
 ATRIBUTOS_FIND: res_path igual cadena ATRIBUTOS_FIND
     | res_name igual cadena ATRIBUTOS_FIND
-    |
+    |{}
     ;
 
 COMANDO_LOGIN: res_login ATRIBUTOS_LOGIN
+{
+    $$ = new login();
+}
     ;
 
 ATRIBUTOS_LOGIN: res_usr igual cadena ATRIBUTOS_LOGIN
     | res_pwd igual cadena ATRIBUTOS_LOGIN
     | res_id igual cadena ATRIBUTOS_LOGIN
-    |
+    |{}
     ;
 
 COMANDO_LOGOUT: res_logout
+{
+    $$ = new logout();
+}
     ;
 
 COMANDO_LOSS: res_loss res_id igual cadena
+{
+    $$ = new loss();
+}
     ;
 
 COMANDO_MKDIR: res_mkdir ATRIBUTOS_MKDIR
+{
+    $$ = new mkdir();
+}
     ;
 
 ATRIBUTOS_MKDIR: res_path igual cadena ATRIBUTOS_MKDIR
     | res_p ATRIBUTOS_MKDIR
-    |
+    |{}
     ;
 
 COMANDO_MKDISK: res_mkdisk ATRIBUTOS_MKDISK
+{
+    $$ = new mkdisk();
+}
     ;
 
 ATRIBUTOS_MKDISK: res_size igual entero ATRIBUTOS_MKDISK
     | res_path igual cadena ATRIBUTOS_MKDISK
     | res_u igual VALOR_U ATRIBUTOS_MKDISK
     | res_f igual VALOR_F ATRIBUTOS_MKDISK
-    |
+    |{}
     ;
 
 COMANDO_MKFILE: res_mkfile ATRIBUTOS_MKFILE
+{
+    $$ = new mkfile();
+}
     ;
 
 ATRIBUTOS_MKFILE: res_path igual cadena ATRIBUTOS_MKFILE
     | res_p ATRIBUTOS_MKFILE
     | res_size igual entero ATRIBUTOS_MKFILE
     | res_cont igual cadena ATRIBUTOS_MKFILE
-    |
+    |{}
     ;
 
 COMANDO_MKFS: res_mkfs ATRIBUTOS_MKFS
+{
+    $$ = new mkfs();
+}
     ;
 
 ATRIBUTOS_MKFS: res_id igual cadena ATRIBUTOS_MKFS
     | res_path igual cadena ATRIBUTOS_MKFS
     | res_2fs ATRIBUTOS_MKFS
     | res_3fs ATRIBUTOS_MKFS
-    |
+    |{}
     ;
 
 COMANDO_MKGRP: res_mkgrp res_name igual cadena
+{
+    $$ = new mkgrp();
+}
     ;
 
 COMANDO_MKUSR: res_mkusr ATRIBUTOS_MKUSR
+{
+    $$ = new mkusr();
+}
     ;
 
 ATRIBUTOS_MKUSR: res_usr igual cadena ATRIBUTOS_MKUSR
     | res_pwd igual cadena ATRIBUTOS_MKUSR
     | res_grp igual cadena ATRIBUTOS_MKUSR
-    |
+    |{}
     ;
 
 COMANDO_MOUNT: res_mount ATRIBUTOS_MOUNT
+{
+    $$ = new mount();
+}
     ;
 
 ATRIBUTOS_MOUNT: res_path igual cadena ATRIBUTOS_MOUNT
     | res_name igual cadena ATRIBUTOS_MOUNT
-    |
+    |{}
     ;
 
 COMANDO_MV: res_mv ATRIBUTOS_MV
+{
+    $$ = new mv();
+}
     ;
 
 ATRIBUTOS_MV: res_path igual cadena ATRIBUTOS_MV
     | res_dest igual cadena ATRIBUTOS_MV
-    |
+    |{}
     ;
 
 COMANDO_PAUSE: res_pause
+{
+    $$ = new pause();
+}
     ;
 
 COMANDO_RECOVERY: res_recovery res_id igual cadena
+{
+    $$ = new recovery();
+}
     ;
 
 COMANDO_REM: res_rem res_path igual cadena
+{
+    $$ = new rem();
+}
     ;
 
 COMANDO_REN: res_ren ATRIBUTOS_REN
+{
+    $$ = new ren();
+}
     ;
 
 ATRIBUTOS_REN: res_path igual cadena ATRIBUTOS_REN
     | res_name igual cadena ATRIBUTOS_REN
-    |
+    |{}
     ;
 
 COMANDO_REP: res_rep ATRIBUTOS_REP
+{
+    $$ = new repl();
+}
     ;
 
 ATRIBUTOS_REP: res_path igual cadena ATRIBUTOS_REP
     | res_name igual VALOR_NAME ATRIBUTOS_REP
     | res_id igual cadena ATRIBUTOS_REP
     | res_ruta igual cadena ATRIBUTOS_REP
-    |
+    |{}
     ;
 
 VALOR_NAME: res_mbr
@@ -422,15 +525,27 @@ VALOR_NAME: res_mbr
     ;
 
 COMANDO_RMDISK: res_rmdisk res_path igual cadena
+{
+    $$ = new rmdisk();
+}
     ;
 
 COMANDO_RMGRP: res_rmgrp res_name igual cadena
+{
+    $$ = new rmgrp();
+}
     ;
 
 COMANDO_RMUSR: res_rmusr res_usr igual cadena
+{
+    $$ = new rmusr();
+}
     ;
 
 COMANDO_UNMOUNT: res_unmount res_id igual cadena
+{
+    $$ = new unmount();
+}
     ;
 
 

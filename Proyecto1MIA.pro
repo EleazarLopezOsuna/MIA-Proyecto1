@@ -38,7 +38,7 @@ SOURCES += main.cpp \
     recovery.cpp \
     loss.cpp \
     exec.cpp \
-    rep.cpp
+    repl.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -84,4 +84,4 @@ HEADERS += \
     recovery.h \
     loss.h \
     exec.h \
-    rep.h
+    repl.h

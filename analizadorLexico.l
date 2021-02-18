@@ -20,25 +20,20 @@
 %option noyywrap
 %option nounput
 
-//Expresiones regulares
 entero [0-9]
+filen "FILE"{entero}+
 letra [a-zA-ZÑñáéíóúÁÉÍÓÚ]
 identificador {letra}({letra}|{entero}|"_")*
 caracter "\'"("\\")?({letra}|{entero})"\'"
 cadena [\"][^\"\/]*[\"]
 rutita "\/"{identificador}
 ruta {rutita}+
-filen "FILE"{entero}+
 
 
 %x COM
 
 
 %%
-
-//Palabras reservadas
-
-//Comandos
 "MKDISK" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_mkdisk;}
 "RMDISK" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_rmdisk;}
 "FDISK" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_fdisk;}
@@ -69,7 +64,7 @@ filen "FILE"{entero}+
 "EXEC" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_exec;}
 "REP" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_rep;}
 
-//Parametros
+
 "-SIZE" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_size;}
 "-PATH" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_path;}
 "-U" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_u;}
@@ -91,7 +86,6 @@ filen "FILE"{entero}+
 "-DEST" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_dest;}
 "-RUTA" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_ruta;}
 
-//Valores
 "K" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_k;}
 "M" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_m;}
 "BF" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_bf;}
@@ -104,7 +98,6 @@ filen "FILE"{entero}+
 "FAST" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_fast;}
 "FULL" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_full;}
 
-//Para reportes
 "MBR" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_mbr;}
 "DISK" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_disk;}
 "INODE" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_inode;}
@@ -117,21 +110,17 @@ filen "FILE"{entero}+
 "FILE" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_file;}
 "LS" {columna=columna+ anterior;  anterior = strlen(yytext); strcpy(yylval.TEXT, yytext);return res_ls;}
 
-//No terminales
+{filen} {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext); return res_filen;}
 {entero} {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext); return entero;}
 {cadena} {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext); return cadena;}
 {identificador} {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext); return cadena;}
 {ruta} {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext); return cadena;}
-{filen} {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext); return res_filen;}
 
-//Simbolos
 "=" {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext);return igual;}
 "?" {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext);return uno;}
 "*" {columna=columna+ anterior;  anterior = strlen(yytext);strcpy(yylval.TEXT, yytext);return unoMas;}
 
-//Otros
 "\n" {linea++; columna=0; anterior=0;}
 [[:blank:]] { columna++; }
 
-//Manejo de errores
 .   {std::cout<<"Error Lexico: "<<linea<<"\n";}
