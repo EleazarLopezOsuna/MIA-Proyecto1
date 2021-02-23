@@ -1,5 +1,5 @@
 %{
-#include "scanner.h"//se importa el header del analisis sintactico
+#include "scanner.h"
 #include <QString>
 #include <string>
 #include "qdebug.h"
@@ -12,7 +12,7 @@
 #include "cm_edit.h"
 #include "cm_exec.h"
 #include "cm_fdisk.h"
-#include "cm_findcl.h"
+#include "cm_find.h"
 #include "cm_login.h"
 #include "cm_logout.h"
 #include "cm_loss.h"
@@ -39,6 +39,7 @@ using namespace std;
 extern int yylineno; //linea actual donde se encuentra el parser (analisis lexico) lo maneja BISON
 extern int columna; //columna actual donde se encuentra el parser (analisis lexico) lo maneja BISON
 extern char *yytext; //lexema actual donde esta el parser (analisis lexico) lo maneja BISON
+cm_cat *n_cat = new cm_cat();
 
 int yyerror(const char* mens)
 {
@@ -62,7 +63,7 @@ int yyerror(const char* mens)
     class cm_edit *edit_comm;
     class cm_exec *exec_comm;
     class cm_fdisk *fdisk_comm;
-    class cm_findcl *findcl_comm;
+    class cm_find *findcl_comm;
     class cm_login *login_comm;
     class cm_logout *logout_comm;
     class cm_loss *loss_comm;
@@ -205,7 +206,7 @@ int yyerror(const char* mens)
 %start COMANDOS
 %%
 
-COMANDOS: COMANDO_CAT
+COMANDOS: COMANDO_CAT { n_cat->ejecutar(); }
     | COMANDO_CHGRP
     | COMANDO_CHMOD
     | COMANDO_CHOWN
@@ -236,19 +237,25 @@ COMANDOS: COMANDO_CAT
     | COMANDO_UNMOUNT
     ;
 
-COMANDO_CAT: res_cat res_filen igual cadena RECURSIVIDAD_FILEN
-{
-    $$ = new cat();
-}
+COMANDO_CAT: res_cat res_filen igual cadena RECURSIVIDAD_FILEN {
+        filen* nuevo = new filen();
+        nuevo->path = $4;
+        n_cat->insertar(nuevo);
+        $$ = n_cat;
+    }
     ;
 
-RECURSIVIDAD_FILEN: res_filen igual cadena RECURSIVIDAD_FILEN
+RECURSIVIDAD_FILEN: res_filen igual cadena RECURSIVIDAD_FILEN{
+        filen* nuevo = new filen();
+        nuevo->path = $3;
+        n_cat->insertar(nuevo);
+    }
     |{}
     ;
 
 COMANDO_CHGRP: res_chgrp ATRIBUTOS_CHGRP
 {
-    $$ = new chgrp();
+    $$ = new cm_chgrp();
 }
     ;
 
@@ -259,7 +266,7 @@ ATRIBUTOS_CHGRP: res_usr igual cadena ATRIBUTOS_CHGRP
 
 COMANDO_CHMOD: res_chmod ATRIBUTOS_CHMOD
 {
-    $$ = new chmod();
+    $$ = new cm_chmod();
 }
     ;
 
@@ -271,7 +278,7 @@ ATRIBUTOS_CHMOD: res_path igual cadena ATRIBUTOS_CHMOD
 
 COMANDO_CHOWN: res_chown ATRIBUTOS_CHOWN
 {
-    $$ = new chown();
+    $$ = new cm_chown();
 }
     ;
 
@@ -283,7 +290,7 @@ ATRIBUTOS_CHOWN: res_path igual cadena ATRIBUTOS_CHOWN
 
 COMANDO_CP: res_cp ATRIBUTOS_CP
 {
-    $$ = new cp();
+    $$ = new cm_cp();
 }
     ;
 
@@ -294,7 +301,7 @@ ATRIBUTOS_CP: res_path igual cadena ATRIBUTOS_CP
 
 COMANDO_EDIT: res_edit ATRIBUTOS_EDIT
 {
-    $$ = new edit();
+    $$ = new cm_edit();
 }
     ;
 
@@ -305,13 +312,13 @@ ATRIBUTOS_EDIT: res_path igual cadena ATRIBUTOS_EDIT
 
 COMANDO_EXEC: res_exec res_path igual cadena
 {
-    $$ = new exec();
+    $$ = new cm_exec();
 }
     ;
 
 COMANDO_FDISK: res_fdisk ATRIBUTOS_FDISK
 {
-    $$ = new fdisk();
+    $$ = new cm_fdisk();
 }
     ;
 
@@ -347,7 +354,7 @@ VALOR_DELETE: res_fast
 
 COMANDO_FIND: res_find ATRIBUTOS_FIND
 {
-    $$ = new findcl();
+    $$ = new cm_find();
 }
     ;
 
@@ -358,7 +365,7 @@ ATRIBUTOS_FIND: res_path igual cadena ATRIBUTOS_FIND
 
 COMANDO_LOGIN: res_login ATRIBUTOS_LOGIN
 {
-    $$ = new login();
+    $$ = new cm_login();
 }
     ;
 
@@ -370,19 +377,19 @@ ATRIBUTOS_LOGIN: res_usr igual cadena ATRIBUTOS_LOGIN
 
 COMANDO_LOGOUT: res_logout
 {
-    $$ = new logout();
+    $$ = new cm_logout();
 }
     ;
 
 COMANDO_LOSS: res_loss res_id igual cadena
 {
-    $$ = new loss();
+    $$ = new cm_loss();
 }
     ;
 
 COMANDO_MKDIR: res_mkdir ATRIBUTOS_MKDIR
 {
-    $$ = new mkdir();
+    $$ = new cm_mkdir();
 }
     ;
 
@@ -393,7 +400,7 @@ ATRIBUTOS_MKDIR: res_path igual cadena ATRIBUTOS_MKDIR
 
 COMANDO_MKDISK: res_mkdisk ATRIBUTOS_MKDISK
 {
-    $$ = new mkdisk();
+    $$ = new cm_mkdisk();
 }
     ;
 
@@ -406,7 +413,7 @@ ATRIBUTOS_MKDISK: res_size igual entero ATRIBUTOS_MKDISK
 
 COMANDO_MKFILE: res_mkfile ATRIBUTOS_MKFILE
 {
-    $$ = new mkfile();
+    $$ = new cm_mkfile();
 }
     ;
 
@@ -419,7 +426,7 @@ ATRIBUTOS_MKFILE: res_path igual cadena ATRIBUTOS_MKFILE
 
 COMANDO_MKFS: res_mkfs ATRIBUTOS_MKFS
 {
-    $$ = new mkfs();
+    $$ = new cm_mkfs();
 }
     ;
 
@@ -432,13 +439,13 @@ ATRIBUTOS_MKFS: res_id igual cadena ATRIBUTOS_MKFS
 
 COMANDO_MKGRP: res_mkgrp res_name igual cadena
 {
-    $$ = new mkgrp();
+    $$ = new cm_mkgrp();
 }
     ;
 
 COMANDO_MKUSR: res_mkusr ATRIBUTOS_MKUSR
 {
-    $$ = new mkusr();
+    $$ = new cm_mkusr();
 }
     ;
 
@@ -450,7 +457,7 @@ ATRIBUTOS_MKUSR: res_usr igual cadena ATRIBUTOS_MKUSR
 
 COMANDO_MOUNT: res_mount ATRIBUTOS_MOUNT
 {
-    $$ = new mount();
+    $$ = new cm_mount();
 }
     ;
 
@@ -461,7 +468,7 @@ ATRIBUTOS_MOUNT: res_path igual cadena ATRIBUTOS_MOUNT
 
 COMANDO_MV: res_mv ATRIBUTOS_MV
 {
-    $$ = new mv();
+    $$ = new cm_mv();
 }
     ;
 
@@ -472,25 +479,25 @@ ATRIBUTOS_MV: res_path igual cadena ATRIBUTOS_MV
 
 COMANDO_PAUSE: res_pause
 {
-    $$ = new pausecl();
+    $$ = new cm_pause();
 }
     ;
 
 COMANDO_RECOVERY: res_recovery res_id igual cadena
 {
-    $$ = new recovery();
+    $$ = new cm_recovery();
 }
     ;
 
 COMANDO_REM: res_rem res_path igual cadena
 {
-    $$ = new rem();
+    $$ = new cm_rem();
 }
     ;
 
 COMANDO_REN: res_ren ATRIBUTOS_REN
 {
-    $$ = new ren();
+    $$ = new cm_ren();
 }
     ;
 
@@ -501,7 +508,7 @@ ATRIBUTOS_REN: res_path igual cadena ATRIBUTOS_REN
 
 COMANDO_REP: res_rep ATRIBUTOS_REP
 {
-    $$ = new repl();
+    $$ = new cm_rep();
 }
     ;
 
@@ -527,25 +534,25 @@ VALOR_NAME: res_mbr
 
 COMANDO_RMDISK: res_rmdisk res_path igual cadena
 {
-    $$ = new rmdisk();
+    $$ = new cm_rmdisk();
 }
     ;
 
 COMANDO_RMGRP: res_rmgrp res_name igual cadena
 {
-    $$ = new rmgrp();
+    $$ = new cm_rmgrp();
 }
     ;
 
 COMANDO_RMUSR: res_rmusr res_usr igual cadena
 {
-    $$ = new rmusr();
+    $$ = new cm_rmusr();
 }
     ;
 
 COMANDO_UNMOUNT: res_unmount res_id igual cadena
 {
-    $$ = new unmount();
+    $$ = new cm_unmount();
 }
     ;
 

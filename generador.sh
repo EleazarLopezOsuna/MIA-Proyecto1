@@ -3,3 +3,4 @@
 flex --header-file=scanner.h -o scanner.cpp analizadorLexico.l
 
 bison -o parser.cpp --defines=parser.h analizadorSintactico.y
+
