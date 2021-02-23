@@ -4,35 +4,37 @@
 #include <string>
 #include "qdebug.h"
 #include <iostream>
-#include "cat.h"
-#include "chgrp.h"
-#include "chmod.h"
-#include "chown.h"
-#include "cp.h"
-#include "edit.h"
-#include "exec.h"
-#include "fdisk.h"
-#include "find.h"
-#include "login.h"
-#include "logout.h"
-#include "loss.h"
-#include "mkdir.h"
-#include "mkdisk.h"
-#include "mkfile.h"
-#include "mkfs.h"
-#include "mkgrp.h"
-#include "mkusr.h"
-#include "mount.h"
-#include "mv.h"
-#include "pause.h"
-#include "recovery.h"
-#include "rem.h"
-#include "ren.h"
-#include "repl.h"
-#include "rmdisk.h"
-#include "rmgrp.h"
-#include "rmusr.h"
-#include "unmount.h"
+#include "cm_cat.h"
+#include "cm_chgrp.h"
+#include "cm_chmod.h"
+#include "cm_chown.h"
+#include "cm_cp.h"
+#include "cm_edit.h"
+#include "cm_exec.h"
+#include "cm_fdisk.h"
+#include "cm_findcl.h"
+#include "cm_login.h"
+#include "cm_logout.h"
+#include "cm_loss.h"
+#include "cm_mkdir.h"
+#include "cm_mkdisk.h"
+#include "cm_mkfile.h"
+#include "cm_mkfs.h"
+#include "cm_mkgrp.h"
+#include "cm_mkusr.h"
+#include "cm_mount.h"
+#include "cm_mv.h"
+#include "cm_pause.h"
+#include "cm_recovery.h"
+#include "cm_rem.h"
+#include "cm_ren.h"
+#include "cm_rep.h"
+#include "cm_rmdisk.h"
+#include "cm_rmgrp.h"
+#include "cm_rmusr.h"
+#include "cm_unmount.h"
+#include "structsreportes.h"
+
 using namespace std;
 extern int yylineno; //linea actual donde se encuentra el parser (analisis lexico) lo maneja BISON
 extern int columna; //columna actual donde se encuentra el parser (analisis lexico) lo maneja BISON
@@ -52,36 +54,35 @@ int yyerror(const char* mens)
 %locations
 %union{
     char TEXT[256];
-    class cat *cat_comm;
-    class chgrp *chgrp_comm;
-    class chmod *chmod_comm; //Falta
-    class chown *chown_comm;
-    class cp *cp_comm;
-    class edit *edit_comm;
-    class exec *exec_comm;
-    class fdisk *fdisk_comm;
-    class find *find_comm;
-    class login *login_comm;
-    class logout *logout_comm;
-    class loss *loss_comm;
-    class mkdir *mkdir_comm;
-    class mkdisk *mkdisk_comm;
-    class mkfile *mkfile_comm;
-    class mkfs *mkfs_comm;
-    class mkgrp *mkgrp_comm;
-    class mkusr *mkusr_comm;
-    class mount *mount_comm;
-    class mv *mv_comm;
-    class pause *pause_comm;
-    class recovery *recovery_comm;
-    class rem *rem_comm;
-    class ren *ren_comm;
-    class repl *rep_comm
-    class rmdisk *rmdisk_comm;
-    class rmgrp *rmgrp_comm;
-    class rmusr *rmusr_comm;
-    class unmount *unmount_comm;
-
+    class cm_cat *cat_comm;
+    class cm_chgrp *chgrp_comm;
+    class cm_chmod *chmod_comm;
+    class cm_chown *chown_comm;
+    class cm_cp *cp_comm;
+    class cm_edit *edit_comm;
+    class cm_exec *exec_comm;
+    class cm_fdisk *fdisk_comm;
+    class cm_findcl *findcl_comm;
+    class cm_login *login_comm;
+    class cm_logout *logout_comm;
+    class cm_loss *loss_comm;
+    class cm_mkdir *mkdir_comm;
+    class cm_mkdisk *mkdisk_comm;
+    class cm_mkfile *mkfile_comm;
+    class cm_mkfs *mkfs_comm;
+    class cm_mkgrp *mkgrp_comm;
+    class cm_mkusr *mkusr_comm;
+    class cm_mount *mount_comm;
+    class cm_mv *mv_comm;
+    class cm_pause *pause_comm;
+    class cm_recovery *recovery_comm;
+    class cm_rem *rem_comm;
+    class cm_ren *ren_comm;
+    class cm_rep *rep_comm;
+    class cm_rmdisk *rmdisk_comm;
+    class cm_rmgrp *rmgrp_comm;
+    class cm_rmusr *rmusr_comm;
+    class cm_unmount *unmount_comm;
 }
 //Manejo de comandos
 %token<TEXT> res_mkdisk;
@@ -171,71 +172,71 @@ int yyerror(const char* mens)
 %token<TEXT> uno;
 %token<TEXT> unoMas;
 
-%type<cat> COMANDO_CAT; //Produccion completa
-%type<chgrp> COMANDO_CHGRP; //Produccion completa
-%type<chmod> COMANDO_CHMOD; //Produccion completa
-%type<chown> COMANDO_CHOWN; //Produccion completa
-%type<cp> COMANDO_CP; //Produccion completa
-%type<edit> COMANDO_EDIT; //Produccion completa
-%type<exec> COMANDO_EXEC; //Produccion completa
-%type<fdisk> COMANDO_FDISK; //Produccion completa
-%type<find> COMANDO_FIND; //Produccion completa
-%type<login> COMANDO_LOGIN; //Produccion completa
-%type<logout> COMANDO_LOGOUT; //Produccion completa
-%type<loss> COMANDO_LOSS; //Produccion completa
-%type<mkdir> COMANDO_MKDIR; //Produccion completa
-%type<mkdisk> COMANDO_MKDISK; //Produccion completa
-%type<mkfile> COMANDO_MKFILE; //Produccion completa
-%type<mkfs> COMANDO_MKFS; //Produccion completa
-%type<mkgrp> COMANDO_MKGRP; //Produccion completa
-%type<mkusr> COMANDO_MKUSR; //Produccion completa
-%type<mount> COMANDO_MOUNT; //Produccion completa
-%type<mv> COMANDO_MV; //Produccion completa
-%type<pause> COMANDO_PAUSE; //Produccion completa
-%type<recovery> COMANDO_RECOVERY; //Produccion completa
-%type<rem> COMANDO_REM; //Produccion completa
-%type<ren> COMANDO_REN; //Produccion completa
-%type<rep> COMANDO_REP; //Produccion completa
-%type<rmdisk> COMANDO_RMDISK; //Produccion completa
-%type<rmgrp> COMANDO_RMGRP; //Produccion completa
-%type<rmusr> COMANDO_RMUSR; //Produccion completa
-%type<unmount> COMANDO_UNMOUNT; //Produccion completa
+%type<cat_comm> COMANDO_CAT; //Produccion completa
+%type<chgrp_comm> COMANDO_CHGRP; //Produccion completa
+%type<chmod_comm> COMANDO_CHMOD; //Produccion completa
+%type<chown_comm> COMANDO_CHOWN; //Produccion completa
+%type<cp_comm> COMANDO_CP; //Produccion completa
+%type<edit_comm> COMANDO_EDIT; //Produccion completa
+%type<exec_comm> COMANDO_EXEC; //Produccion completa
+%type<fdisk_comm> COMANDO_FDISK; //Produccion completa
+%type<findcl_comm> COMANDO_FIND; //Produccion completa
+%type<login_comm> COMANDO_LOGIN; //Produccion completa
+%type<logout_comm> COMANDO_LOGOUT; //Produccion completa
+%type<loss_comm> COMANDO_LOSS; //Produccion completa
+%type<mkdir_comm> COMANDO_MKDIR; //Produccion completa
+%type<mkdisk_comm> COMANDO_MKDISK; //Produccion completa
+%type<mkfile_comm> COMANDO_MKFILE; //Produccion completa
+%type<mkfs_comm> COMANDO_MKFS; //Produccion completa
+%type<mkgrp_comm> COMANDO_MKGRP; //Produccion completa
+%type<mkusr_comm> COMANDO_MKUSR; //Produccion completa
+%type<mount_comm> COMANDO_MOUNT; //Produccion completa
+%type<mv_comm> COMANDO_MV; //Produccion completa
+%type<pause_comm> COMANDO_PAUSE; //Produccion completa
+%type<recovery_comm> COMANDO_RECOVERY; //Produccion completa
+%type<rem_comm> COMANDO_REM; //Produccion completa
+%type<ren_comm> COMANDO_REN; //Produccion completa
+%type<rep_comm> COMANDO_REP; //Produccion completa
+%type<rmdisk_comm> COMANDO_RMDISK; //Produccion completa
+%type<rmgrp_comm> COMANDO_RMGRP; //Produccion completa
+%type<rmusr_comm> COMANDO_RMUSR; //Produccion completa
+%type<unmount_comm> COMANDO_UNMOUNT; //Produccion completa
 
 %start COMANDOS
 %%
 
-COMANDOS: res_cat COMANDO_CAT
-    | res_chgrp COMANDO_CHGRP
-    | res_chmod COMANDO_CHMOD
-    | res_chown COMANDO_CHOWN
-    | res_cp COMANDO_CP
-    | res_edit COMANDO_EDIT
-    | res_exec COMANDO_EXEC
-    | res_fdisk COMANDO_FDISK
-    | res_find COMANDO_FIND
-    | res_login COMANDO_LOGIN
-    | res_logout COMANDO_LOGOUT
-    | res_loss COMANDO_LOSS
-    | res_mkdir COMANDO_MKDIR
-    | res_mkdisk COMANDO_MKDISK
-    | res_mkfile COMANDO_MKFILE
-    | res_mkfs COMANDO_MKFS
-    | res_mkgrp COMANDO_MKGRP
-    | res_mkusr COMANDO_MKUSR
-    | res_mount COMANDO_MOUNT
-    | res_mv COMANDO_MV
-    | res_pause COMANDO_PAUSE
-    | res_recovery COMANDO_RECOVERY
-    | res_rem COMANDO_REM
-    | res_ren COMANDO_REN
-    | res_rep COMANDO_REP
-    | res_rmdisk COMANDO_RMDISK
-    | res_rmgrp COMANDO_RMGRP
-    | res_rmusr COMANDO_RMUSR
-    | res_unmount COMANDO_UNMOUNT
+COMANDOS: COMANDO_CAT
+    | COMANDO_CHGRP
+    | COMANDO_CHMOD
+    | COMANDO_CHOWN
+    | COMANDO_CP
+    | COMANDO_EDIT
+    | COMANDO_EXEC
+    | COMANDO_FDISK
+    | COMANDO_FIND
+    | COMANDO_LOGIN
+    | COMANDO_LOGOUT
+    | COMANDO_LOSS
+    | COMANDO_MKDIR
+    | COMANDO_MKDISK
+    | COMANDO_MKFILE
+    | COMANDO_MKFS
+    | COMANDO_MKGRP
+    | COMANDO_MKUSR
+    | COMANDO_MOUNT
+    | COMANDO_MV
+    | COMANDO_PAUSE
+    | COMANDO_RECOVERY
+    | COMANDO_REM
+    | COMANDO_REN
+    | COMANDO_REP
+    | COMANDO_RMDISK
+    | COMANDO_RMGRP
+    | COMANDO_RMUSR
+    | COMANDO_UNMOUNT
     ;
 
-COMANDO_CAT: res_filen igual cadena RECURSIVIDAD_FILEN
+COMANDO_CAT: res_cat res_filen igual cadena RECURSIVIDAD_FILEN
 {
     $$ = new cat();
 }
@@ -346,7 +347,7 @@ VALOR_DELETE: res_fast
 
 COMANDO_FIND: res_find ATRIBUTOS_FIND
 {
-    $$ = new find();
+    $$ = new findcl();
 }
     ;
 
@@ -471,7 +472,7 @@ ATRIBUTOS_MV: res_path igual cadena ATRIBUTOS_MV
 
 COMANDO_PAUSE: res_pause
 {
-    $$ = new pause();
+    $$ = new pausecl();
 }
     ;
 

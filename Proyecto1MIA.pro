@@ -10,35 +10,7 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
-    mkdisk.cpp \
-    rmdisk.cpp \
-    fdisk.cpp \
-    mount.cpp \
-    unmount.cpp \
-    mkfs.cpp \
-    login.cpp \
-    logout.cpp \
-    mkgrp.cpp \
-    rmgrp.cpp \
-    mkusr.cpp \
-    rmusr.cpp \
-    chmod.cpp \
-    mkfile.cpp \
-    cat.cpp \
-    rem.cpp \
-    edit.cpp \
-    ren.cpp \
-    mkdir.cpp \
-    cp.cpp \
-    mv.cpp \
-    find.cpp \
-    chown.cpp \
-    chgrp.cpp \
-    pause.cpp \
-    recovery.cpp \
-    loss.cpp \
-    exec.cpp \
-    repl.cpp
+    structsreportes.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -55,33 +27,5 @@ DISTFILES += \
     analizadorLexico.l \
     analizadorSintactico.y
 
-HEADERS += \
-    mkdisk.h \
-    rmdisk.h \
-    fdisk.h \
-    mount.h \
-    unmount.h \
-    mkfs.h \
-    login.h \
-    logout.h \
-    mkgrp.h \
-    rmgrp.h \
-    mkusr.h \
-    rmusr.h \
-    chmod.h \
-    mkfile.h \
-    cat.h \
-    rem.h \
-    edit.h \
-    ren.h \
-    mkdir.h \
-    cp.h \
-    mv.h \
-    find.h \
-    chown.h \
-    chgrp.h \
-    pause.h \
-    recovery.h \
-    loss.h \
-    exec.h \
-    repl.h
+HEADERS +=
+    structsreportes.h
