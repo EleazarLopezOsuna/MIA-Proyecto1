@@ -49,9 +49,9 @@ int main(int argc, char *argv[])
                     yylineno = 0;
 
                     if(yyparse()==0){
-                        printf("\n\Comando ejecutado correctamente\n\n");
+                        printf("\n\n\n");
                     }else {
-                        printf("\n\nhay errores\n\n");
+                        printf("\n\nExisten errores de Compilacion\n\n");
                     }
 
                 }

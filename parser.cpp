@@ -103,12 +103,15 @@
 #include "cm_rmusr.h"
 #include "cm_unmount.h"
 #include "structsreportes.h"
+#include <string>
+#include <iostream>
 
 using namespace std;
 extern int yylineno; //linea actual donde se encuentra el parser (analisis lexico) lo maneja BISON
 extern int columna; //columna actual donde se encuentra el parser (analisis lexico) lo maneja BISON
 extern char *yytext; //lexema actual donde esta el parser (analisis lexico) lo maneja BISON
 cm_cat *n_cat = new cm_cat();
+cm_mkdisk *n_mkdisk = new cm_mkdisk();
 
 int yyerror(const char* mens)
 {
@@ -116,7 +119,7 @@ int yyerror(const char* mens)
     return 0;
 }
 
-#line 120 "parser.cpp"
+#line 123 "parser.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -247,9 +250,10 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 56 "analizadorSintactico.y"
+#line 59 "analizadorSintactico.y"
 
     char TEXT[256];
+    char CARACTER;
     class cm_cat *cat_comm;
     class cm_chgrp *chgrp_comm;
     class cm_chmod *chmod_comm;
@@ -280,7 +284,7 @@ union YYSTYPE
     class cm_rmusr *rmusr_comm;
     class cm_unmount *unmount_comm;
 
-#line 284 "parser.cpp"
+#line 288 "parser.cpp"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -680,22 +684,22 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   209,   209,   210,   211,   212,   213,   214,   215,   216,
-     217,   218,   219,   220,   221,   222,   223,   224,   225,   226,
-     227,   228,   229,   230,   231,   232,   233,   234,   235,   236,
-     237,   240,   248,   253,   256,   262,   263,   264,   267,   273,
-     274,   275,   276,   279,   285,   286,   287,   288,   291,   297,
-     298,   299,   302,   308,   309,   310,   313,   319,   325,   326,
-     327,   328,   329,   330,   331,   332,   333,   336,   337,   338,
-     341,   342,   343,   346,   347,   348,   351,   352,   355,   361,
-     362,   363,   366,   372,   373,   374,   375,   378,   384,   390,
-     396,   397,   398,   401,   407,   408,   409,   410,   411,   414,
-     420,   421,   422,   423,   424,   427,   433,   434,   435,   436,
-     437,   440,   446,   452,   453,   454,   455,   458,   464,   465,
-     466,   469,   475,   476,   477,   480,   486,   492,   498,   504,
-     505,   506,   509,   515,   516,   517,   518,   519,   522,   523,
-     524,   525,   526,   527,   528,   529,   530,   531,   532,   535,
-     541,   547,   553
+       0,   216,   216,   217,   218,   219,   220,   221,   222,   223,
+     224,   225,   226,   227,   228,   229,   230,   231,   232,   233,
+     234,   235,   236,   237,   238,   239,   240,   241,   242,   243,
+     244,   247,   255,   260,   263,   269,   270,   271,   274,   280,
+     281,   282,   283,   286,   292,   293,   294,   295,   298,   304,
+     305,   306,   309,   315,   316,   317,   320,   326,   332,   333,
+     334,   335,   336,   337,   338,   339,   340,   343,   344,   345,
+     348,   349,   350,   353,   354,   355,   358,   359,   362,   368,
+     369,   370,   373,   379,   380,   381,   382,   385,   391,   397,
+     403,   404,   405,   408,   414,   418,   422,   426,   430,   433,
+     439,   440,   441,   442,   443,   446,   452,   453,   454,   455,
+     456,   459,   465,   471,   472,   473,   474,   477,   483,   484,
+     485,   488,   494,   495,   496,   499,   505,   511,   517,   523,
+     524,   525,   528,   534,   535,   536,   537,   538,   541,   542,
+     543,   544,   545,   546,   547,   548,   549,   550,   551,   554,
+     560,   566,   572
 };
 #endif
 
@@ -1802,366 +1806,440 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 209 "analizadorSintactico.y"
+#line 216 "analizadorSintactico.y"
                       { n_cat->ejecutar(); }
-#line 1808 "parser.cpp"
+#line 1812 "parser.cpp"
+    break;
+
+  case 15:
+#line 229 "analizadorSintactico.y"
+                     { n_mkdisk->ejecutar(); }
+#line 1818 "parser.cpp"
     break;
 
   case 31:
-#line 240 "analizadorSintactico.y"
+#line 247 "analizadorSintactico.y"
                                                                {
         filen* nuevo = new filen();
         nuevo->path = (yyvsp[-1].TEXT);
         n_cat->insertar(nuevo);
         (yyval.cat_comm) = n_cat;
     }
-#line 1819 "parser.cpp"
+#line 1829 "parser.cpp"
     break;
 
   case 32:
-#line 248 "analizadorSintactico.y"
+#line 255 "analizadorSintactico.y"
                                                              {
         filen* nuevo = new filen();
         nuevo->path = (yyvsp[-1].TEXT);
         n_cat->insertar(nuevo);
     }
-#line 1829 "parser.cpp"
+#line 1839 "parser.cpp"
     break;
 
   case 33:
-#line 253 "analizadorSintactico.y"
+#line 260 "analizadorSintactico.y"
      {}
-#line 1835 "parser.cpp"
+#line 1845 "parser.cpp"
     break;
 
   case 34:
-#line 257 "analizadorSintactico.y"
+#line 264 "analizadorSintactico.y"
 {
     (yyval.chgrp_comm) = new cm_chgrp();
 }
-#line 1843 "parser.cpp"
+#line 1853 "parser.cpp"
     break;
 
   case 37:
-#line 264 "analizadorSintactico.y"
+#line 271 "analizadorSintactico.y"
      {}
-#line 1849 "parser.cpp"
+#line 1859 "parser.cpp"
     break;
 
   case 38:
-#line 268 "analizadorSintactico.y"
+#line 275 "analizadorSintactico.y"
 {
     (yyval.chmod_comm) = new cm_chmod();
 }
-#line 1857 "parser.cpp"
+#line 1867 "parser.cpp"
     break;
 
   case 42:
-#line 276 "analizadorSintactico.y"
+#line 283 "analizadorSintactico.y"
      {}
-#line 1863 "parser.cpp"
+#line 1873 "parser.cpp"
     break;
 
   case 43:
-#line 280 "analizadorSintactico.y"
+#line 287 "analizadorSintactico.y"
 {
     (yyval.chown_comm) = new cm_chown();
 }
-#line 1871 "parser.cpp"
+#line 1881 "parser.cpp"
     break;
 
   case 47:
-#line 288 "analizadorSintactico.y"
+#line 295 "analizadorSintactico.y"
      {}
-#line 1877 "parser.cpp"
+#line 1887 "parser.cpp"
     break;
 
   case 48:
-#line 292 "analizadorSintactico.y"
+#line 299 "analizadorSintactico.y"
 {
     (yyval.cp_comm) = new cm_cp();
 }
-#line 1885 "parser.cpp"
+#line 1895 "parser.cpp"
     break;
 
   case 51:
-#line 299 "analizadorSintactico.y"
+#line 306 "analizadorSintactico.y"
      {}
-#line 1891 "parser.cpp"
+#line 1901 "parser.cpp"
     break;
 
   case 52:
-#line 303 "analizadorSintactico.y"
+#line 310 "analizadorSintactico.y"
 {
     (yyval.edit_comm) = new cm_edit();
 }
-#line 1899 "parser.cpp"
+#line 1909 "parser.cpp"
     break;
 
   case 55:
-#line 310 "analizadorSintactico.y"
+#line 317 "analizadorSintactico.y"
      {}
-#line 1905 "parser.cpp"
+#line 1915 "parser.cpp"
     break;
 
   case 56:
-#line 314 "analizadorSintactico.y"
+#line 321 "analizadorSintactico.y"
 {
     (yyval.exec_comm) = new cm_exec();
 }
-#line 1913 "parser.cpp"
+#line 1923 "parser.cpp"
     break;
 
   case 57:
-#line 320 "analizadorSintactico.y"
+#line 327 "analizadorSintactico.y"
 {
     (yyval.fdisk_comm) = new cm_fdisk();
 }
-#line 1921 "parser.cpp"
+#line 1931 "parser.cpp"
     break;
 
   case 66:
-#line 333 "analizadorSintactico.y"
+#line 340 "analizadorSintactico.y"
      {}
-#line 1927 "parser.cpp"
+#line 1937 "parser.cpp"
     break;
 
-  case 78:
-#line 356 "analizadorSintactico.y"
-{
-    (yyval.findcl_comm) = new cm_find();
-}
-#line 1935 "parser.cpp"
+  case 67:
+#line 343 "analizadorSintactico.y"
+               { (yyval.CARACTER) = 'B'; }
+#line 1943 "parser.cpp"
     break;
 
-  case 81:
-#line 363 "analizadorSintactico.y"
-     {}
-#line 1941 "parser.cpp"
-    break;
-
-  case 82:
-#line 367 "analizadorSintactico.y"
-{
-    (yyval.login_comm) = new cm_login();
-}
+  case 68:
+#line 344 "analizadorSintactico.y"
+            { (yyval.CARACTER) = 'K'; }
 #line 1949 "parser.cpp"
     break;
 
-  case 86:
-#line 375 "analizadorSintactico.y"
-     {}
+  case 69:
+#line 345 "analizadorSintactico.y"
+            { (yyval.CARACTER) = 'M'; }
 #line 1955 "parser.cpp"
     break;
 
+  case 73:
+#line 353 "analizadorSintactico.y"
+                { (yyval.CARACTER) = 'B'; }
+#line 1961 "parser.cpp"
+    break;
+
+  case 74:
+#line 354 "analizadorSintactico.y"
+             { (yyval.CARACTER) = 'F'; }
+#line 1967 "parser.cpp"
+    break;
+
+  case 75:
+#line 355 "analizadorSintactico.y"
+             { (yyval.CARACTER) = 'W'; }
+#line 1973 "parser.cpp"
+    break;
+
+  case 78:
+#line 363 "analizadorSintactico.y"
+{
+    (yyval.findcl_comm) = new cm_find();
+}
+#line 1981 "parser.cpp"
+    break;
+
+  case 81:
+#line 370 "analizadorSintactico.y"
+     {}
+#line 1987 "parser.cpp"
+    break;
+
+  case 82:
+#line 374 "analizadorSintactico.y"
+{
+    (yyval.login_comm) = new cm_login();
+}
+#line 1995 "parser.cpp"
+    break;
+
+  case 86:
+#line 382 "analizadorSintactico.y"
+     {}
+#line 2001 "parser.cpp"
+    break;
+
   case 87:
-#line 379 "analizadorSintactico.y"
+#line 386 "analizadorSintactico.y"
 {
     (yyval.logout_comm) = new cm_logout();
 }
-#line 1963 "parser.cpp"
+#line 2009 "parser.cpp"
     break;
 
   case 88:
-#line 385 "analizadorSintactico.y"
+#line 392 "analizadorSintactico.y"
 {
     (yyval.loss_comm) = new cm_loss();
 }
-#line 1971 "parser.cpp"
+#line 2017 "parser.cpp"
     break;
 
   case 89:
-#line 391 "analizadorSintactico.y"
+#line 398 "analizadorSintactico.y"
 {
     (yyval.mkdir_comm) = new cm_mkdir();
 }
-#line 1979 "parser.cpp"
+#line 2025 "parser.cpp"
     break;
 
   case 92:
-#line 398 "analizadorSintactico.y"
+#line 405 "analizadorSintactico.y"
      {}
-#line 1985 "parser.cpp"
+#line 2031 "parser.cpp"
     break;
 
   case 93:
-#line 402 "analizadorSintactico.y"
+#line 409 "analizadorSintactico.y"
 {
     (yyval.mkdisk_comm) = new cm_mkdisk();
 }
-#line 1993 "parser.cpp"
+#line 2039 "parser.cpp"
     break;
 
-  case 98:
-#line 411 "analizadorSintactico.y"
-     {}
-#line 1999 "parser.cpp"
-    break;
-
-  case 99:
+  case 94:
 #line 415 "analizadorSintactico.y"
 {
-    (yyval.mkfile_comm) = new cm_mkfile();
+    n_mkdisk->size = atoi((yyvsp[-1].TEXT));
 }
-#line 2007 "parser.cpp"
+#line 2047 "parser.cpp"
     break;
 
-  case 104:
-#line 424 "analizadorSintactico.y"
-     {}
-#line 2013 "parser.cpp"
-    break;
-
-  case 105:
-#line 428 "analizadorSintactico.y"
+  case 95:
+#line 419 "analizadorSintactico.y"
 {
-    (yyval.mkfs_comm) = new cm_mkfs();
+    n_mkdisk->path = (yyvsp[-1].TEXT);
 }
-#line 2021 "parser.cpp"
+#line 2055 "parser.cpp"
     break;
 
-  case 110:
-#line 437 "analizadorSintactico.y"
-     {}
-#line 2027 "parser.cpp"
-    break;
-
-  case 111:
-#line 441 "analizadorSintactico.y"
+  case 96:
+#line 423 "analizadorSintactico.y"
 {
-    (yyval.mkgrp_comm) = new cm_mkgrp();
+    n_mkdisk->u = (yyvsp[-1].CARACTER);
 }
-#line 2035 "parser.cpp"
-    break;
-
-  case 112:
-#line 447 "analizadorSintactico.y"
-{
-    (yyval.mkusr_comm) = new cm_mkusr();
-}
-#line 2043 "parser.cpp"
-    break;
-
-  case 116:
-#line 455 "analizadorSintactico.y"
-     {}
-#line 2049 "parser.cpp"
-    break;
-
-  case 117:
-#line 459 "analizadorSintactico.y"
-{
-    (yyval.mount_comm) = new cm_mount();
-}
-#line 2057 "parser.cpp"
-    break;
-
-  case 120:
-#line 466 "analizadorSintactico.y"
-     {}
 #line 2063 "parser.cpp"
     break;
 
-  case 121:
-#line 470 "analizadorSintactico.y"
+  case 97:
+#line 427 "analizadorSintactico.y"
 {
-    (yyval.mv_comm) = new cm_mv();
+    n_mkdisk->f = (yyvsp[-1].CARACTER);
 }
 #line 2071 "parser.cpp"
     break;
 
-  case 124:
-#line 477 "analizadorSintactico.y"
+  case 98:
+#line 430 "analizadorSintactico.y"
      {}
 #line 2077 "parser.cpp"
     break;
 
-  case 125:
-#line 481 "analizadorSintactico.y"
+  case 99:
+#line 434 "analizadorSintactico.y"
 {
-    (yyval.pause_comm) = new cm_pause();
+    (yyval.mkfile_comm) = new cm_mkfile();
 }
 #line 2085 "parser.cpp"
     break;
 
+  case 104:
+#line 443 "analizadorSintactico.y"
+     {}
+#line 2091 "parser.cpp"
+    break;
+
+  case 105:
+#line 447 "analizadorSintactico.y"
+{
+    (yyval.mkfs_comm) = new cm_mkfs();
+}
+#line 2099 "parser.cpp"
+    break;
+
+  case 110:
+#line 456 "analizadorSintactico.y"
+     {}
+#line 2105 "parser.cpp"
+    break;
+
+  case 111:
+#line 460 "analizadorSintactico.y"
+{
+    (yyval.mkgrp_comm) = new cm_mkgrp();
+}
+#line 2113 "parser.cpp"
+    break;
+
+  case 112:
+#line 466 "analizadorSintactico.y"
+{
+    (yyval.mkusr_comm) = new cm_mkusr();
+}
+#line 2121 "parser.cpp"
+    break;
+
+  case 116:
+#line 474 "analizadorSintactico.y"
+     {}
+#line 2127 "parser.cpp"
+    break;
+
+  case 117:
+#line 478 "analizadorSintactico.y"
+{
+    (yyval.mount_comm) = new cm_mount();
+}
+#line 2135 "parser.cpp"
+    break;
+
+  case 120:
+#line 485 "analizadorSintactico.y"
+     {}
+#line 2141 "parser.cpp"
+    break;
+
+  case 121:
+#line 489 "analizadorSintactico.y"
+{
+    (yyval.mv_comm) = new cm_mv();
+}
+#line 2149 "parser.cpp"
+    break;
+
+  case 124:
+#line 496 "analizadorSintactico.y"
+     {}
+#line 2155 "parser.cpp"
+    break;
+
+  case 125:
+#line 500 "analizadorSintactico.y"
+{
+    (yyval.pause_comm) = new cm_pause();
+}
+#line 2163 "parser.cpp"
+    break;
+
   case 126:
-#line 487 "analizadorSintactico.y"
+#line 506 "analizadorSintactico.y"
 {
     (yyval.recovery_comm) = new cm_recovery();
 }
-#line 2093 "parser.cpp"
+#line 2171 "parser.cpp"
     break;
 
   case 127:
-#line 493 "analizadorSintactico.y"
+#line 512 "analizadorSintactico.y"
 {
     (yyval.rem_comm) = new cm_rem();
 }
-#line 2101 "parser.cpp"
+#line 2179 "parser.cpp"
     break;
 
   case 128:
-#line 499 "analizadorSintactico.y"
+#line 518 "analizadorSintactico.y"
 {
     (yyval.ren_comm) = new cm_ren();
 }
-#line 2109 "parser.cpp"
+#line 2187 "parser.cpp"
     break;
 
   case 131:
-#line 506 "analizadorSintactico.y"
+#line 525 "analizadorSintactico.y"
      {}
-#line 2115 "parser.cpp"
+#line 2193 "parser.cpp"
     break;
 
   case 132:
-#line 510 "analizadorSintactico.y"
+#line 529 "analizadorSintactico.y"
 {
     (yyval.rep_comm) = new cm_rep();
 }
-#line 2123 "parser.cpp"
+#line 2201 "parser.cpp"
     break;
 
   case 137:
-#line 519 "analizadorSintactico.y"
+#line 538 "analizadorSintactico.y"
      {}
-#line 2129 "parser.cpp"
+#line 2207 "parser.cpp"
     break;
 
   case 149:
-#line 536 "analizadorSintactico.y"
+#line 555 "analizadorSintactico.y"
 {
     (yyval.rmdisk_comm) = new cm_rmdisk();
 }
-#line 2137 "parser.cpp"
+#line 2215 "parser.cpp"
     break;
 
   case 150:
-#line 542 "analizadorSintactico.y"
+#line 561 "analizadorSintactico.y"
 {
     (yyval.rmgrp_comm) = new cm_rmgrp();
 }
-#line 2145 "parser.cpp"
+#line 2223 "parser.cpp"
     break;
 
   case 151:
-#line 548 "analizadorSintactico.y"
+#line 567 "analizadorSintactico.y"
 {
     (yyval.rmusr_comm) = new cm_rmusr();
 }
-#line 2153 "parser.cpp"
+#line 2231 "parser.cpp"
     break;
 
   case 152:
-#line 554 "analizadorSintactico.y"
+#line 573 "analizadorSintactico.y"
 {
     (yyval.unmount_comm) = new cm_unmount();
 }
-#line 2161 "parser.cpp"
+#line 2239 "parser.cpp"
     break;
 
 
-#line 2165 "parser.cpp"
+#line 2243 "parser.cpp"
 
       default: break;
     }

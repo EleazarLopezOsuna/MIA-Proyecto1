@@ -34,12 +34,15 @@
 #include "cm_rmusr.h"
 #include "cm_unmount.h"
 #include "structsreportes.h"
+#include <string>
+#include <iostream>
 
 using namespace std;
 extern int yylineno; //linea actual donde se encuentra el parser (analisis lexico) lo maneja BISON
 extern int columna; //columna actual donde se encuentra el parser (analisis lexico) lo maneja BISON
 extern char *yytext; //lexema actual donde esta el parser (analisis lexico) lo maneja BISON
 cm_cat *n_cat = new cm_cat();
+cm_mkdisk *n_mkdisk = new cm_mkdisk();
 
 int yyerror(const char* mens)
 {
@@ -55,6 +58,7 @@ int yyerror(const char* mens)
 %locations
 %union{
     char TEXT[256];
+    char CARACTER;
     class cm_cat *cat_comm;
     class cm_chgrp *chgrp_comm;
     class cm_chmod *chmod_comm;
@@ -203,6 +207,10 @@ int yyerror(const char* mens)
 %type<rmusr_comm> COMANDO_RMUSR; //Produccion completa
 %type<unmount_comm> COMANDO_UNMOUNT; //Produccion completa
 
+%type<CARACTER> VALOR_U;
+%type<CARACTER> VALOR_F;
+%type<CARACTER> VALOR_TYPE;
+
 %start COMANDOS
 %%
 
@@ -219,7 +227,7 @@ COMANDOS: COMANDO_CAT { n_cat->ejecutar(); }
     | COMANDO_LOGOUT
     | COMANDO_LOSS
     | COMANDO_MKDIR
-    | COMANDO_MKDISK
+    | COMANDO_MKDISK { n_mkdisk->ejecutar(); }
     | COMANDO_MKFILE
     | COMANDO_MKFS
     | COMANDO_MKGRP
@@ -333,19 +341,19 @@ ATRIBUTOS_FDISK: res_size igual entero ATRIBUTOS_FDISK
     |{}
     ;
 
-VALOR_U: res_b
-    | res_k
-    | res_m
+VALOR_U: res_b { $$ = 'B'; }
+    | res_k { $$ = 'K'; }
+    | res_m { $$ = 'M'; }
     ;
 
-VALOR_TYPE: res_p
-    | res_e
-    | res_l
+VALOR_TYPE: res_p { $$ = 'P'; }
+    | res_e { $$ = 'E'; }
+    | res_l { $$ = 'L'; }
     ;
 
-VALOR_F: res_bf
-    | res_ff
-    | res_wf
+VALOR_F: res_bf { $$ = 'B'; }
+    | res_ff { $$ = 'F'; }
+    | res_wf { $$ = 'W'; }
     ;
 
 VALOR_DELETE: res_fast
@@ -405,9 +413,21 @@ COMANDO_MKDISK: res_mkdisk ATRIBUTOS_MKDISK
     ;
 
 ATRIBUTOS_MKDISK: res_size igual entero ATRIBUTOS_MKDISK
+{
+    n_mkdisk->size = atoi($3);
+}
     | res_path igual cadena ATRIBUTOS_MKDISK
+{
+    n_mkdisk->path = $3;
+}
     | res_u igual VALOR_U ATRIBUTOS_MKDISK
+{
+    n_mkdisk->u = $3;
+}
     | res_f igual VALOR_F ATRIBUTOS_MKDISK
+{
+    n_mkdisk->f = $3;
+}
     |{}
     ;
 
@@ -555,35 +575,3 @@ COMANDO_UNMOUNT: res_unmount res_id igual cadena
     $$ = new cm_unmount();
 }
     ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
