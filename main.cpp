@@ -13,7 +13,8 @@ extern int yylineno;
 
 int main(int argc, char *argv[])
 {
-    /*cm_cat *cat = new cm_cat();
+/*
+    cm_cat *cat = new cm_cat();
 
     filen* primero = new filen();
     filen* segundo = new filen();
@@ -28,7 +29,11 @@ int main(int argc, char *argv[])
     cat->insertar(tercero);
     cat->ejecutar();
 
-    cat file1=Archivo1 file2=Archivo2
+    cat -file1=Archivo1 -file2=Archivo2
+    chgrp -usr=Usuario1 -grp=Grupo1
+    chmod -path=/home -ugo=745 -r
+    chown -path=/home -usr=Usuario1 -r
+    mkdisk -path=/home -size=250 -u=K -f=WF
 */
 
     string p="------------------------------Ingrese un comando------------------------------\n";

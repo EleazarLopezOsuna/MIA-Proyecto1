@@ -132,10 +132,11 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 59 "analizadorSintactico.y"
+#line 86 "analizadorSintactico.y"
 
     char TEXT[256];
     char CARACTER;
+    int NUMERO;
     class cm_cat *cat_comm;
     class cm_chgrp *chgrp_comm;
     class cm_chmod *chmod_comm;
@@ -166,7 +167,7 @@ union YYSTYPE
     class cm_rmusr *rmusr_comm;
     class cm_unmount *unmount_comm;
 
-#line 170 "parser.h"
+#line 171 "parser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

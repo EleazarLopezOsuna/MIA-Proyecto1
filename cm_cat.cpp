@@ -17,7 +17,7 @@ void cm_cat::insertar(filen* nuevo){
 void cm_cat::ejecutar(){
     filen* tmp = primero;
     while(tmp != nullptr){
-        cout<<tmp->path<<'\n';
+        //Agregar ejecucion
         tmp = tmp->siguiente;
     }
 }

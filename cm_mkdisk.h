@@ -2,8 +2,8 @@
 #define CM_MKDISK_H
 #include <string>
 #include <iostream>
+#include <cstring>
 using namespace std;
-
 
 class cm_mkdisk
 {
@@ -14,9 +14,6 @@ public:
     string path;
     char u;
     char f;
-
-private:
-    void crearDisco();
 };
 
 #endif // CM_MKDISK_H

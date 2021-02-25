@@ -56,7 +56,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 DISTFILES += \
     analizadorSintactico.y \
-    analizadorLexico.y
+    analizadorLexico.l
 
 HEADERS += \
     structsreportes.h \

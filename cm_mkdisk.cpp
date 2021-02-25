@@ -7,12 +7,9 @@ cm_mkdisk::cm_mkdisk(){
 }
 
 void cm_mkdisk::ejecutar(){
-    if(path == "" || size == -1)
+    if(path == "" || size == -1){
         cout<<"Los parametros obligatorios no se han completado";
-    else
-        crearDisco();
-}
-
-void cm_mkdisk::crearDisco(){
-    cout<<"Disco creado";
+    }else{
+        //Agregar ejecucion
+    }
 }

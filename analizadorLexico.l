@@ -20,8 +20,8 @@
 %option noyywrap
 %option nounput
 
-entero [0-9]
-filen "FILE"{entero}+
+entero "-"?[0-9]+
+filen "-FILE"{entero}+
 letra [a-zA-ZÑñáéíóúÁÉÍÓÚ]
 identificador {letra}({letra}|{entero}|"_")*
 caracter "\'"("\\")?({letra}|{entero})"\'"
