@@ -34,8 +34,12 @@ int main(int argc, char *argv[])
     chgrp -usr=Usuario1 -grp=Grupo1
     chmod -path=/home -ugo=745 -r
     chown -path=/home -usr=Usuario1 -r
-    mkdisk -path="/home/jared/Desktop/prueba2.dk" -size=250 -u=K -f=WF
+    mkdisk -path="/home/jared/Desktop/prueba.dk" -size=250 -u=K -f=WF
     rmdisk -path="/home/jared/Desktop/prueba.dk"
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=19 -name=Nueva1
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=19 -name=Nueva2
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=150 -name=Nueva3 -type=E
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=61 -name=Nueva4 -type=P
 */
 
     string p="------------------------------Ingrese un comando------------------------------\n";
@@ -48,7 +52,7 @@ int main(int argc, char *argv[])
         while(line!="salir"){
             cout << p;
             line = qtin.readLine();
-            if(line!="salir"){
+            if(line!="ver" && line!="salir"){
                 if(line.isEmpty()==false){
                     YY_BUFFER_STATE buffer = yy_scan_string(line.toUtf8().constData());
                     linea = 0;
@@ -62,6 +66,23 @@ int main(int argc, char *argv[])
                     }
 
                 }
+            }if(line == "salir" || line == "\n"){
+
+            }else{
+                FILE *archivo=fopen("/home/jared/Desktop/prueba.dk","rb+");
+                mbr prueba;
+                fseek(archivo, 0, SEEK_SET);
+                fread(&prueba, sizeof(mbr), 1, archivo);
+                fclose(archivo);
+
+                cout << "\n----------DATOS DEL DISCO-----\n";
+                cout << "MBR FIT: "<< prueba.disk_fit<<endl;
+                cout << "MBR FECHA: "<< asctime(gmtime(&prueba.mbr_creacion));
+                cout << "MBR SIZE: "<< prueba.mbr_size<<endl;
+                cout << "MBR PAR1: "<< prueba.particion1.part_name<<endl;
+                cout << "MBR PAR2: "<< prueba.particion2.part_name<<endl;
+                cout << "MBR PAR3: "<< prueba.particion3.part_name<<endl;
+                cout << "MBR PAR4: "<< prueba.particion4.part_name<<endl;
             }
 
         }

@@ -2453,7 +2453,7 @@ yyreduce:
   case 89:
 #line 418 "analizadorSintactico.y"
 {
-    strncpy(n_fdisk->name, (yyvsp[-1].TEXT), 10);
+    strncpy(n_fdisk->name, (yyvsp[-1].TEXT), 16);
 }
 #line 2459 "parser.cpp"
     break;

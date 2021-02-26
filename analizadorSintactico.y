@@ -416,7 +416,7 @@ ATRIBUTOS_FDISK: res_size igual entero ATRIBUTOS_FDISK
 }
     | res_name igual cadena ATRIBUTOS_FDISK
 {
-    strncpy(n_fdisk->name, $3, 10);
+    strncpy(n_fdisk->name, $3, 16);
 }
     | res_u igual VALOR_U ATRIBUTOS_FDISK
 {

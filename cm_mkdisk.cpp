@@ -52,7 +52,7 @@ void cm_mkdisk::crearDisco(){
 
     particion vacia;
     vacia.part_fit = '-';
-    vacia.part_size = -1;
+    vacia.part_size = 0;
     vacia.part_start = -1;
     vacia.part_status = '0';
     vacia.part_type = '-';

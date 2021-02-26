@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 #include <cstring>
+#include <structsreportes.h>
+#include <ctime>
 using namespace std;
 
 
@@ -17,7 +19,7 @@ public:
     char f;
     bool borrar;
     char tipo_borrar;
-    char name[10];
+    char name[16];
     bool agregar;
     void ejecutar();
 };
