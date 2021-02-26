@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 #include <cstring>
+#include <structsreportes.h>
+#include <ctime>
 using namespace std;
 
 class cm_mkdisk
@@ -14,6 +16,9 @@ public:
     string path;
     char u;
     char f;
+    mbr *mbrDisco;
+private:
+    void crearDisco();
 };
 
 #endif // CM_MKDISK_H

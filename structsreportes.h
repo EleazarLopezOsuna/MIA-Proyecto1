@@ -51,6 +51,15 @@ struct apuntadores{
     int b_pointers[16];
 };
 
+struct ebr{
+    char part_status;
+    char part_fit;
+    int part_start;
+    int part_size;
+    int part_next;
+    char part_name[16];
+};
+
 struct particion{
     char part_status;
     char part_type;
@@ -69,15 +78,6 @@ struct mbr{
     particion particion2;
     particion particion3;
     particion particion4;
-};
-
-struct ebr{
-    char part_status;
-    char part_fit;
-    int part_start;
-    int part_size;
-    int part_next;
-    char part_name[16];
 };
 
 class structsReportes

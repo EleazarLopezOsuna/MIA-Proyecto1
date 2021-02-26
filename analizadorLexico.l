@@ -23,9 +23,9 @@
 entero "-"?[0-9]+
 filen "-FILE"{entero}+
 letra [a-zA-ZÑñáéíóúÁÉÍÓÚ]
-identificador {letra}({letra}|{entero}|"_")*
+identificador {letra}({letra}|{entero}|"_"|".")*
 caracter "\'"("\\")?({letra}|{entero})"\'"
-cadena [\"][^\"\/]*[\"]
+cadena [\"][^\"]*[\"]
 rutita "\/"{identificador}
 ruta {rutita}+
 

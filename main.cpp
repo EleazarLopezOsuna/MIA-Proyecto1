@@ -4,6 +4,7 @@
 #include <parser.h>
 #include <scanner.h>
 #include <QTextStream>
+#include <structsreportes.h>
 using namespace std;
 
 int p;
@@ -33,7 +34,8 @@ int main(int argc, char *argv[])
     chgrp -usr=Usuario1 -grp=Grupo1
     chmod -path=/home -ugo=745 -r
     chown -path=/home -usr=Usuario1 -r
-    mkdisk -path=/home -size=250 -u=K -f=WF
+    mkdisk -path="/home/jared/Desktop/prueba2.dk" -size=250 -u=K -f=WF
+    rmdisk -path="/home/jared/Desktop/prueba.dk"
 */
 
     string p="------------------------------Ingrese un comando------------------------------\n";
