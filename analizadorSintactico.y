@@ -457,8 +457,14 @@ VALOR_F: res_bf { $$ = 'B'; }
     | res_wf { $$ = 'W'; }
     ;
 
-VALOR_DELETE: res_fast{ $$ = 'R'; }
-    | res_full{ $$ = 'F'; }
+VALOR_DELETE: res_fast
+{
+    $$ = 'R';
+}
+    | res_full
+{
+    $$ = 'F';
+}
     ;
 
 COMANDO_FIND: res_find ATRIBUTOS_FIND

@@ -76,13 +76,4 @@ void cm_mkdisk::crearDisco(){
     fseek(archivo, 0, SEEK_SET);
     fread(&prueba, sizeof(mbr), 1, archivo);
     fclose(archivo);
-
-    cout << "\n----------DATOS DEL DISCO-----\n";
-    cout << "MBR FIT: "<< prueba.disk_fit<<endl;
-    cout << "MBR FECHA: "<< asctime(gmtime(&prueba.mbr_creacion));
-    cout << "MBR SIZE: "<< prueba.mbr_size<<endl;
-    cout << "MBR PAR1: "<< prueba.particion1.part_name<<endl;
-    cout << "MBR PAR2: "<< prueba.particion2.part_name<<endl;
-    cout << "MBR PAR3: "<< prueba.particion3.part_name<<endl;
-    cout << "MBR PAR4: "<< prueba.particion4.part_name<<endl;
 }

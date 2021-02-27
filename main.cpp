@@ -15,21 +15,6 @@ extern int yylineno;
 int main(int argc, char *argv[])
 {
 /*
-    cm_cat *cat = new cm_cat();
-
-    filen* primero = new filen();
-    filen* segundo = new filen();
-    filen* tercero = new filen();
-
-    primero->path = "1er path";
-    segundo->path = "2do path";
-    tercero->path = "3er path";
-
-    cat->insertar(primero);
-    cat->insertar(segundo);
-    cat->insertar(tercero);
-    cat->ejecutar();
-
     cat -file1=Archivo1 -file2=Archivo2
     chgrp -usr=Usuario1 -grp=Grupo1
     chmod -path=/home -ugo=745 -r
@@ -40,6 +25,13 @@ int main(int argc, char *argv[])
     fdisk -path="/home/jared/Desktop/prueba.dk" -size=19 -name=Nueva2
     fdisk -path="/home/jared/Desktop/prueba.dk" -size=150 -name=Nueva3 -type=E
     fdisk -path="/home/jared/Desktop/prueba.dk" -size=61 -name=Nueva4 -type=P
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=40 -name=Nueva5 -type=L
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=40 -name=Nueva6 -type=L
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=40 -name=Nueva7 -type=L
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=20 -name=Nueva8 -type=L
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=3 -name=Nueva9 -type=L -f=WF
+    fdisk -path="/home/jared/Desktop/prueba.dk" -size=3 -name=Nueva10 -type=L -f=BF
+    fdisk -path="/home/jared/Desktop/prueba.dk" -name=Nueva1 -delete=full
 */
 
     string p="------------------------------Ingrese un comando------------------------------\n";
@@ -79,10 +71,66 @@ int main(int argc, char *argv[])
                 cout << "MBR FIT: "<< prueba.disk_fit<<endl;
                 cout << "MBR FECHA: "<< asctime(gmtime(&prueba.mbr_creacion));
                 cout << "MBR SIZE: "<< prueba.mbr_size<<endl;
-                cout << "MBR PAR1: "<< prueba.particion1.part_name<<endl;
-                cout << "MBR PAR2: "<< prueba.particion2.part_name<<endl;
-                cout << "MBR PAR3: "<< prueba.particion3.part_name<<endl;
-                cout << "MBR PAR4: "<< prueba.particion4.part_name<<endl;
+                cout << "\n----------DATOS DE LA PARTICION 1-----\n";
+                cout << "Fit: "<< prueba.particion1.part_fit<<endl;
+                cout << "Nombre: "<< prueba.particion1.part_name<<endl;
+                cout << "Size: "<< prueba.particion1.part_size<<endl;
+                cout << "Start: "<< prueba.particion1.part_start<<endl;
+                cout << "Status: "<< prueba.particion1.part_status<<endl;
+                cout << "Type: "<< prueba.particion1.part_type<<endl;
+                cout << "\n----------DATOS DE LA PARTICION 2-----\n";
+                cout << "Fit: "<< prueba.particion2.part_fit<<endl;
+                cout << "Nombre: "<< prueba.particion2.part_name<<endl;
+                cout << "Size: "<< prueba.particion2.part_size<<endl;
+                cout << "Start: "<< prueba.particion2.part_start<<endl;
+                cout << "Status: "<< prueba.particion2.part_status<<endl;
+                cout << "Type: "<< prueba.particion2.part_type<<endl;
+                cout << "\n----------DATOS DE LA PARTICION 3-----\n";
+                cout << "Fit: "<< prueba.particion3.part_fit<<endl;
+                cout << "Nombre: "<< prueba.particion3.part_name<<endl;
+                cout << "Size: "<< prueba.particion3.part_size<<endl;
+                cout << "Start: "<< prueba.particion3.part_start<<endl;
+                cout << "Status: "<< prueba.particion3.part_status<<endl;
+                cout << "Type: "<< prueba.particion3.part_type<<endl;
+                cout << "\n----------DATOS DE LA PARTICION 4-----\n";
+                cout << "Fit: "<< prueba.particion4.part_fit<<endl;
+                cout << "Nombre: "<< prueba.particion4.part_name<<endl;
+                cout << "Size: "<< prueba.particion4.part_size<<endl;
+                cout << "Start: "<< prueba.particion4.part_start<<endl;
+                cout << "Status: "<< prueba.particion4.part_status<<endl;
+                cout << "Type: "<< prueba.particion4.part_type<<endl;
+
+                int i = 1;
+                int posicion = 0;
+                ebr pruebaEbr;
+                archivo=fopen("/home/jared/Desktop/prueba.dk","rb+");
+                fseek(archivo, prueba.particion3.part_start, SEEK_SET);
+                fread(&pruebaEbr, sizeof(mbr), 1, archivo);
+                fclose(archivo);
+                cout << "\n----------DATOS DE LA PARTICION EXTENDIDA #1-----\n";
+                cout << "Fit: "<< pruebaEbr.part_fit<<endl;
+                cout << "Nombre: "<< pruebaEbr.part_name<<endl;
+                cout << "Size: "<< pruebaEbr.part_size<<endl;
+                cout << "Start: "<< pruebaEbr.part_start<<endl;
+                cout << "Status: "<< pruebaEbr.part_status<<endl;
+                cout << "Siguiente: "<< pruebaEbr.part_next<<endl;
+                i++;
+
+                while(pruebaEbr.part_next > 0){
+                    posicion = pruebaEbr.part_next;
+                    archivo=fopen("/home/jared/Desktop/prueba.dk","rb+");
+                    fseek(archivo, posicion, SEEK_SET);
+                    fread(&pruebaEbr, sizeof(mbr), 1, archivo);
+                    fclose(archivo);
+                    cout << "\n----------DATOS DE LA PARTICION EXTENDIDA #"<<i<<"-----\n";
+                    cout << "Fit: "<< pruebaEbr.part_fit<<endl;
+                    cout << "Nombre: "<< pruebaEbr.part_name<<endl;
+                    cout << "Size: "<< pruebaEbr.part_size<<endl;
+                    cout << "Start: "<< pruebaEbr.part_start<<endl;
+                    cout << "Status: "<< pruebaEbr.part_status<<endl;
+                    cout << "Siguiente: "<< pruebaEbr.part_next<<endl;
+                    i++;
+                }
             }
 
         }

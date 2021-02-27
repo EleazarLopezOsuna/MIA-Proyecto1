@@ -22,6 +22,12 @@ public:
     char name[16];
     bool agregar;
     void ejecutar();
+private:
+    mbr insertPart(mbr mbrDisco, particion part, int posicion, int freeSize);
+    void checkExtendedSpace(FILE *archivo, ebr ebrDisco, int partSize, ebr ebrNuevo, int posicion);
+    void insertInExtended(FILE *archivo, ebr ebrNuevo, int posicion, int freeSize);
+    particion reescribirParticion(particion vacia, particion part, string path);
+    void reescribirExtendida(ebr pruebaEbr, string path, char nombre[16]);
 };
 
 #endif // CM_FDISK_H
