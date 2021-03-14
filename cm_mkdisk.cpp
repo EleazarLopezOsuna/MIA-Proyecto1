@@ -7,6 +7,8 @@ cm_mkdisk::cm_mkdisk(){
 }
 
 void cm_mkdisk::ejecutar(){
+    path.erase(std::remove(path.begin(), path.end(), '"'), path.end());
+    cout<<path;
     if(path == "" || size == -1){
         cout<<"Los parametros obligatorios no se han completado"<<endl;
     }else{
@@ -15,10 +17,6 @@ void cm_mkdisk::ejecutar(){
         mbrDisco->mbr_creacion = time(0);
         srand((unsigned) time(0));
         mbrDisco->mbr_disk_signature = (rand() % 1000) + 1;
-        if (path.find("\"") != std::string::npos) {
-            path = path.erase(0,1);
-            path = path.erase(strlen(path.c_str()) - 1, 1);
-        }
         crearDisco();
     }
 }
@@ -26,7 +24,6 @@ void cm_mkdisk::ejecutar(){
 void cm_mkdisk::crearDisco(){
     FILE *archivo;
     archivo = fopen(path.c_str(), "wb");
-
     if(archivo == NULL)
         exit(1);
 

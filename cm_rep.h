@@ -3,6 +3,9 @@
 #include <string>
 #include <iostream>
 #include <cstring>
+#include <algorithm>
+#include <structsreportes.h>
+#include <time.h>
 using namespace std;
 
 
@@ -12,7 +15,7 @@ public:
     cm_rep();
     int name;
     string path;
-    char id[10];
+    string id;
     string ruta;
     void ejecutar();
 };

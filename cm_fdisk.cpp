@@ -254,6 +254,8 @@ particion cm_fdisk::reescribirParticion(particion vacia, particion part, string 
 }
 
 void cm_fdisk::reescribirExtendida(ebr pruebaEbr, string path, char nombre[16], int accion){
+    int posicion = 0;
+    FILE *archivo;
     while(pruebaEbr.part_next > 0){
         posicion = pruebaEbr.part_next;
         archivo=fopen(path.c_str(),"rb+");

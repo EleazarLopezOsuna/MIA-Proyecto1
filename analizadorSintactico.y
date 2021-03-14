@@ -720,7 +720,7 @@ ATRIBUTOS_REP: res_path igual cadena ATRIBUTOS_REP
 }
     | res_id igual cadena ATRIBUTOS_REP
 {
-    strncpy(n_rep->id, $3, 10);
+    n_rep->id = $3;
 }
     | res_ruta igual cadena ATRIBUTOS_REP
 {

@@ -5,6 +5,7 @@
 #include <cstring>
 #include <structsreportes.h>
 #include <ctime>
+#include <algorithm>
 using namespace std;
 
 class cm_mkdisk

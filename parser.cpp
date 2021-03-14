@@ -3003,7 +3003,7 @@ yyreduce:
   case 164:
 #line 722 "analizadorSintactico.y"
 {
-    strncpy(n_rep->id, (yyvsp[-1].TEXT), 10);
+    n_rep->id = (yyvsp[-1].TEXT);
 }
 #line 3009 "parser.cpp"
     break;
