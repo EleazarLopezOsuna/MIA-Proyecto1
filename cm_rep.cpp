@@ -13,6 +13,15 @@ void cm_rep::ejecutar(){
     string izquierda = "{";
     string derecha = "{";
     float porcentaje = 0;
+    char ejecutarDot[1024];
+    char ruta[255];
+    for (int i = 0; i < 1024; i++) {
+        ejecutarDot[i] = '\0';
+    }
+    for (int i = 0; i < 255; i++) {
+        ruta[i] = '\0';
+    }
+
     if(path == "" || name == -1 || id == ""){
         cout<<"Los parametros obligatorios no se han completado";
     }else{
@@ -177,7 +186,19 @@ void cm_rep::ejecutar(){
                 }
                 grafica += izquierda + "|" + derecha + "}\"];}";
 
-                cout << grafica;
+                path.erase(std::remove(path.begin(), path.end(), '"'), path.end());
+                std::ofstream out("/home/jared/Desktop/reporteMBR.dot");
+                out << grafica;
+                out.close();
+
+                strcpy(ejecutarDot, "dot -Tpng /home/jared/Desktop/reporteMBR.dot -o");
+                strcat(ejecutarDot, " ");
+                strcat(ejecutarDot, path.c_str());
+                system(ejecutarDot);
+                strcat(ruta, "xdg-open");
+                strcat(ruta, " ");
+                strcat(ruta, path.c_str());
+                system(ruta);
             }
         }
             break;
@@ -323,7 +344,21 @@ void cm_rep::ejecutar(){
             }
             grafica += "}\"]; }";
 
-            cout<<grafica;
+
+            path.erase(std::remove(path.begin(), path.end(), '"'), path.end());
+            std::ofstream out("/home/jared/Desktop/reporteMBR.dot");
+            out << grafica;
+            out.close();
+
+            strcpy(ejecutarDot, "dot -Tpng /home/jared/Desktop/reporteMBR.dot -o");
+            strcat(ejecutarDot, " ");
+            strcat(ejecutarDot, path.c_str());
+            system(ejecutarDot);
+            strcat(ruta, "xdg-open");
+            strcat(ruta, " ");
+            strcat(ruta, path.c_str());
+            system(ruta);
+
         }
             break;
         case 3:

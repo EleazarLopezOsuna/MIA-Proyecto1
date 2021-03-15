@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <structsreportes.h>
 #include <time.h>
+#include <fstream>
 using namespace std;
 
 
